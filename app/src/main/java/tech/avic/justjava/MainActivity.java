@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -12,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
     int quantity = 2;
     boolean hasWhippedCream = false;
+    boolean hasChocolate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +25,21 @@ public class MainActivity extends AppCompatActivity {
         hasWhippedCream = ((CheckBox) v).isChecked();
     }
 
+    public void setHasChocolate(View v) {
+        hasChocolate = ((CheckBox) v).isChecked();
+    }
+
+    private String getName() {
+        EditText edit = (EditText) findViewById(R.id.name_text);
+        return edit.getText().toString();
+    }
     private int calculatePrice() {
         int price = quantity * 5;
         if (hasWhippedCream) {
-            price += 5;
+            price += 5 * quantity;
+        }
+        if (hasChocolate) {
+            price += 3 * quantity;
         }
         return price;
     }
@@ -38,9 +51,12 @@ public class MainActivity extends AppCompatActivity {
      * @return text summary
      */
     private String createOrderSummary(int price) {
-        String message = "Name: " + "Avi Charlop" + "\n";
+        String message = "Name: " + getName() + "\n";
         if (hasWhippedCream) {
             message += "Add whipped cream\n";
+        }
+        if (hasChocolate) {
+            message += "Add Chocolate\n";
         }
         message += "Quantity: " + quantity + "\n";
         message += "Total: $" + price + "\n";
