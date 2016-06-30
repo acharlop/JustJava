@@ -3,6 +3,7 @@ package tech.avic.justjava;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -10,6 +11,7 @@ import java.text.NumberFormat;
 public class MainActivity extends AppCompatActivity {
 
     int quantity = 2;
+    boolean hasWhippedCream = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +19,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    public void setHasWhippedCream(View v) {
+        hasWhippedCream = ((CheckBox) v).isChecked();
+    }
+
     private int calculatePrice() {
-        return quantity * 5;
+        int price = quantity * 5;
+        if (hasWhippedCream) {
+            price += 5;
+        }
+        return price;
     }
 
     /**
@@ -29,12 +39,14 @@ public class MainActivity extends AppCompatActivity {
      */
     private String createOrderSummary(int price) {
         String message = "Name: " + "Avi Charlop" + "\n";
+        if (hasWhippedCream) {
+            message += "Add whipped cream\n";
+        }
         message += "Quantity: " + quantity + "\n";
         message += "Total: $" + price + "\n";
         message += "Thank you!";
         return message;
     }
-
 
     public void submitOrder(View view) {
         int price = calculatePrice();
@@ -66,4 +78,5 @@ public class MainActivity extends AppCompatActivity {
             orderSummaryTextView.setText(message);
         }
     }
+
 }
